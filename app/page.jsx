@@ -1,0 +1,272 @@
+'use client'
+
+import { useState, useContext, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { ProdutoContext } from "@/context";
+
+import Image from "next/image";
+
+import Load from "@/components/load/load";
+import Produtos from "./Produtos/page";
+
+import Link from "next/link";
+
+import { Modal } from "@mui/material";
+import Box from '@mui/material/Box';
+
+import {CircleX, Link2 } from "lucide-react";
+
+import * as BsIcons from 'react-icons/bs';
+
+import firebase from "../app/firebase/db";
+
+import { toast } from 'react-toastify';
+
+    const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '80%',
+      bgcolor: 'background.paper',
+      border: '2px solid #fbfff6',
+      boxShadow: 24,
+      p: 4,
+      zIndex: 100
+    };
+
+export default function Home() {
+
+  const [loading, setLoading] = useState(false)
+  const [code, setCode] = useState('')
+
+  let {lista, setLista, listaCart, setListaCart} = useContext(ProdutoContext);
+  let {open, setOpen} = useContext(ProdutoContext);
+  let {dadosUser, setDadosUser, user, setUser, } = useContext(ProdutoContext);
+  
+
+  const [publicados, setPublicados]= useState([])
+  const [quantidade, setQuantidade]= useState('')
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+          useEffect(() => {
+              const storageUser = localStorage.getItem('usuarioLogado');
+
+              if (storageUser) {
+                  setDadosUser(JSON.parse(storageUser))
+                  return;
+              } else {
+                  console.log('Sem usuários logados.')
+              }
+
+          }, [])
+
+        //   useEffect(() => {
+        //     const storageProdutos = localStorage.getItem('listaProdutos');
+
+        //     if (storageProdutos) {
+        //         setLista(JSON.parse(storageProdutos))
+        //         return;
+        //     } else {
+        //         console.log('Você não tem produtos.')
+        //     }
+
+        // }, [])
+
+
+        useEffect(() => {
+          
+          async function checkLogin() {
+            await firebase.auth().onAuthStateChanged((user) => {
+              if (user) {
+                // usuario logado entra aqui
+                setUser({
+                  uid: user.uid,
+                  email: user.email,
+
+                })
+
+              } else {
+                // se não entra aqui
+                setUser('')
+              }
+            })
+          }
+
+          checkLogin();
+
+        }, [])
+
+
+        useEffect(()=> {
+
+         setLoading(true)
+    
+          async function getProdutos(){
+    
+    
+            await firebase.firestore().collection('produtos')
+          .get()
+          .then((snapshot) => {
+            
+            let dataLista = []
+    
+            snapshot.forEach((doc) => {
+    
+              dataLista.push({
+                id: doc.id,
+                nome: doc.data().nome,
+                preco: doc.data().preco,
+                imagem:doc.data().imagem,
+                uso: doc.data().uso,
+                descricao: doc.data().descricao,
+                vendedor: doc.data().vendedor,
+                quantidade: doc.data().quantidade,
+                status: doc.data().status,
+              })
+
+              const publicados = dataLista.filter(dados => dados.status == 'publicados');
+              setLista(publicados)
+
+              const colunaQuantidade = dataLista.map((item)=> parseFloat(item.quantidade))
+              const totalItens = colunaQuantidade.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+              setQuantidade(totalItens)
+
+              // localStorage.setItem('listaProdutos', JSON.stringify(publicados))
+              
+            })
+
+              setLoading(false)
+             
+    
+        })
+    
+          .catch((err) => {
+            // toast.error('Erro ao buscar no banco!' + err)
+            console.log('erro ao buscar no banco' + err)
+            })
+        }
+        
+        getProdutos()
+        
+    
+    
+        }, [])
+
+
+
+      function addCarrinho(item){
+
+        // console.log(item)
+
+        let randomCode = Math.floor(Math.random() * 100000000000) + 1;
+
+        const verifica = (item) => {
+          const chaves = ['wmv', '3gp', 'mp4', 'mp3', 'avi'];
+         let teste = chaves.includes(item) ? "Encontrou" : "Não encontrou";
+
+          console.log(teste)
+       }
+  
+        let newLista = {
+          id: item.id,
+          code: randomCode,
+          nome: item.nome,
+          preco: item.preco,
+          imagem: item.imagem,
+          quantidade: parseFloat(item.quantidade),
+          vendedor: item.vendedor
+        }
+
+        setListaCart(value => [...value, newLista])
+        toast.success('Adicionado:' + ' ' + item.nome)
+
+      }
+    
+
+    function deleteImg() {
+      setImgProduto('')
+      setUrlProduto('')
+      setInputProduto('')
+  }
+
+
+  function handleFinalizar(){
+    toast.success('Compra finalizada!')
+  }
+
+
+  // function pushCart(produto) {
+  //   const inCart = myCart.find((p) => (p.id === produto.id))
+  //   if (!inCart) {
+  //     produto.qtd = 1
+  //     myCart.push(produto)
+
+  //   } else {
+  //     produto.qtd++
+  //   }
+
+  //   produto.totalItem = produto.qtd * produto.preco;
+
+  //   setMyCart(myCart)
+  // }
+
+  
+  // function calcTotal() {
+  //   total = myCart.reduce((acumulador, item) => {
+  //     return acumulador += item.totalItem
+  //   }, 0)
+
+  //   setTotal(total)
+  // }
+
+
+  // function calcCount() {
+  //   count = myCart.reduce((acc, item) => {
+  //     return acc += item.qtd
+  //   }, 0);
+
+  //   setCount(count);
+  // }
+
+  return (
+
+    <main className="flex flex-col w-full h-full justify-center items-center sm:ml-28 p-2">      
+            <div style={{ marginBottom:'1%'}}>
+                {user != '' && ( <small style={{color:"green" }}>{'olá:' + ' ' + dadosUser.map((item)=> item.nome) }</small>)}
+            </div>
+
+            { lista == '' ? <h1 className="text-2x1 mb-8 "> {lista != '' ? 'Ainda não á itens publicados...' : 'Carregando...'} </h1> : <h1 className="text-2x1 mb-8 font-bold "> Publicados recentes </h1>}
+       
+           
+        <section className=" h-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 justify-self-center self-center">
+            {lista.map((item, index)=>(
+                    <div key={index} className=" flex flex-col w-50justify-center items-center rounded-sm border-x-2 mb-6 " >
+                      <div className="text-green-700 font-bold mt-2 text-2xl">
+                        R$: {item.preco}
+                      </div>
+                      
+
+                      {item.imagem != '' ? (
+                          <Image
+                            key={index}
+                            src={item.imagem}
+                            width={300}
+                            height={300}
+                            alt="Imagem do produt"
+                          /> 
+                      ): <Load/> } 
+                      
+                        <span className="font-bold mb-2">{item.nome}</span>
+                        <span style={{color:"green" , fontSize:'12px'}}>Estoque: {item.quantidade}</span>
+                        <Button className="mb-4 w-40" onClick={()=> addCarrinho(item)}>Adicionar ao carrinho</Button>
+                    </div>
+              ))}
+        </section>
+          
+    </main>
+  );
+}
+

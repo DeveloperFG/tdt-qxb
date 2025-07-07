@@ -1,0 +1,37 @@
+input[type="file"]{
+  display: none;
+  
+}
+
+.label-input{
+  background-color: #696b6a;
+  color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.label-input:hover{
+  background-color: #cad3cf;
+}
+
+
+.cadastar-link{
+  width: 95%;
+  height: 2vh;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  justify-content: end;
+  align-items: end;
+  flex-direction: column;
+  z-index: 9;
+}
+
+.inputPreco + .feedback {
+  display: block;
+}
+
+.inputPreco:focus + .feedback {
+  display: none;
+}
