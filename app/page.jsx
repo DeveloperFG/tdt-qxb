@@ -233,40 +233,56 @@ export default function Home() {
 
   return (
 
-    <main className="flex flex-col w-full h-full justify-center items-center sm:ml-28 p-2">      
-            <div style={{ marginBottom:'1%'}}>
-                {user != '' && ( <small style={{color:"green" }}>{'olá:' + ' ' + dadosUser.map((item)=> item.nome) }</small>)}
+      <main className="flex flex-col w-full h-full justify-center items-center sm:ml-28 p-2">
+        <div style={{ marginBottom: '1%' }}>
+          {user !== '' && (
+            <small style={{ color: 'green' }}>
+              {'olá: ' + dadosUser.map((item) => item.nome)}
+            </small>
+          )}
+        </div>
+
+        {lista === '' ? (
+          <h1 className="text-2xl mb-8">
+            {lista !== '' ? 'Ainda não há itens publicados...' : 'Carregando...'}
+          </h1>
+        ) : (
+          <h1 className="text-2xl mb-8 font-bold">Publicados recentes</h1>
+        )}
+
+        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-self-center self-center">
+          {lista.map((item, index) => (
+            <div
+              key={index}
+              className="w-[180px] h-[220px] bg-white flex flex-col items-center justify-between p-2 border border-gray-300 rounded-lg shadow-md"
+            >
+              <div className="text-green-700 font-bold text-sm">R$: {item.preco}</div>
+
+              {item.imagem !== '' ? (
+                <div className="w-[120px] h-[120px] flex justify-center items-center overflow-hidden">
+                  <Image
+                    key={index}
+                    src={item.imagem}
+                    alt="Imagem do produto"
+                    width={80}
+                    height={80}
+                    className="object-contain w-full h-full"
+                  />
+                </div>
+              ) : (
+                <Load />
+              )}
+
+              <span className="font-bold text-xs text-center truncate">{item.nome}</span>
+              <span className="text-green-600 text-[10px]">Estoque: {item.quantidade}</span>
+
+              <Button className="w-full text-[10px] py-1" onClick={() => addCarrinho(item)}>
+                Adicionar
+              </Button>
             </div>
-
-            { lista == '' ? <h1 className="text-2x1 mb-8 "> {lista != '' ? 'Ainda não á itens publicados...' : 'Carregando...'} </h1> : <h1 className="text-2x1 mb-8 font-bold "> Publicados recentes </h1>}
-       
-           
-        <section className=" h-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 justify-self-center self-center">
-            {lista.map((item, index)=>(
-                    <div key={index} className=" flex flex-col w-50justify-center items-center rounded-sm border-x-2 mb-6 " >
-                      <div className="text-green-700 font-bold mt-2 text-2xl">
-                        R$: {item.preco}
-                      </div>
-                      
-
-                      {item.imagem != '' ? (
-                          <Image
-                            key={index}
-                            src={item.imagem}
-                            width={300}
-                            height={300}
-                            alt="Imagem do produt"
-                          /> 
-                      ): <Load/> } 
-                      
-                        <span className="font-bold mb-2">{item.nome}</span>
-                        <span style={{color:"green" , fontSize:'12px'}}>Estoque: {item.quantidade}</span>
-                        <Button className="mb-4 w-40" onClick={()=> addCarrinho(item)}>Adicionar ao carrinho</Button>
-                    </div>
-              ))}
+          ))}
         </section>
-          
-    </main>
-  );
-}
+      </main>
+        );
+      }
 

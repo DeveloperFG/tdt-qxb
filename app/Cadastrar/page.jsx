@@ -64,6 +64,8 @@ export default function Cadastrar() {
 
   let { user, setUser} = useContext(ProdutoContext);
 
+  console.log("user", user.uid)
+
   const[idProduto, setIdProduto] = useState('')
   const[idVendedor, setIdVendedor] = useState('')
 
@@ -127,6 +129,12 @@ export default function Cadastrar() {
     }
 
     function handleOpenModal(){
+      if(user.uid === undefined){
+          toast.warn("Faça login na plataforma para cadastrar seus itens!", {
+                    icon: "🚫"
+                });
+          return;
+      }
       setNome('')
       setPreco('')
       setUso('')
@@ -137,7 +145,7 @@ export default function Cadastrar() {
       setStatus('')
       setQuantidade('')
       
-      setOpen(true)
+      // setOpen(true)
     }
 
 
@@ -287,7 +295,7 @@ export default function Cadastrar() {
           .put(imgProduto)
           .then(async () => {
   
-              console.log('Upload realizado com sucesso!')
+              console.log('Upload realizadocom sucesso!')
               // toast.success("Upload sucesso!", {
               //     icon: "😁"
               // });
@@ -498,7 +506,7 @@ export default function Cadastrar() {
                       <MenuItem value='6 meses'>Até 6 meses </MenuItem>
                       <MenuItem value='6 á 12 meses'>De 6 á 12 meses</MenuItem>
                       <MenuItem value='12 á 24 meses'>De 12 á 24 meses </MenuItem>
-                      <MenuItem value='maie de 36 meses'>Mais de 36 meses </MenuItem>
+                      <MenuItem value='mais de 36 meses'>Mais de 36 meses </MenuItem>
                     </Select>
                 </FormControl>
 
