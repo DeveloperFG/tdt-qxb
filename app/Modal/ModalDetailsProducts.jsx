@@ -57,7 +57,6 @@ export default function ModalDetailsProducts(){
                                 <div style={{ width:"100%",display:'flex', alignItems:'start', justifyContent:'start', flexDirection:'column'}}>
                                     <p>Produto:<small> {itemClicado.nome}</small></p>
                                     <p>Preço:<small> R$: {itemClicado.preco},00</small></p>
-                                    <p>Produto:<small> {itemClicado.nome}</small></p>
                                     <p>Tempo de uso:<small> {itemClicado.uso}</small></p>
                                     <p>Descrição:<small> {itemClicado.descricao}</small></p>
 
