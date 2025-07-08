@@ -23,6 +23,8 @@ function ContextProvider({children} : {children: React.ReactNode}){
     const [openModalAvatar, setOpenModalAvatar]= useState(false)
 
     const [modalCart, setModalCart] = useState(false)
+    const [modalDetails, setModalDetails] = useState(false)
+     const [itemClicado, setItemClicado] = useState(false)
 
     const [aberto, setAberto] = useState(true);
 
@@ -31,7 +33,8 @@ function ContextProvider({children} : {children: React.ReactNode}){
 
     return(
         <ProdutoContext.Provider value={{lista , setLista, open, setOpen, openDial, setOpenDial, aberto, setAberto, 
-        dadosUser, setDadosUser, user, setUser, openModalAvatar, setOpenModalAvatar, modalCart, setModalCart, listaCart, setListaCart }}>
+        dadosUser, setDadosUser, user, setUser, openModalAvatar, setOpenModalAvatar, modalCart, setModalCart, listaCart, setListaCart,
+         modalDetails, setModalDetails, itemClicado, setItemClicado }}>
             {children}
         </ProdutoContext.Provider>
     )

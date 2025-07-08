@@ -12,6 +12,7 @@ import { SheetClose } from "@/components/ui/sheet";
 import { Tooltip, TooltipContent, TooltipProvider } from "@radix-ui/react-tooltip";
 import { TooltipTrigger } from "../ui/tooltip";
 
+import { toast } from 'react-toastify';
 
 // icone do usuario
 
@@ -39,6 +40,12 @@ export default function Sidebar() {
     }
 
     function ModalAvatar(){
+        if(user.uid === undefined){
+          toast.warn("Faça login na plataforma!", {
+                    icon: "🚫"
+                });        
+          return;
+      }
         setOpenModalAvatar(true)
     }
 

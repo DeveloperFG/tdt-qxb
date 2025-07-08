@@ -77,8 +77,6 @@ export default function ModalCart(){
 }
 
 
-console.log(listaCart)
-
     return(
            <div> 
                 <Modal 

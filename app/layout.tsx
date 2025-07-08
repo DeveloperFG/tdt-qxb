@@ -10,6 +10,7 @@ import Sidebar from "@/components/sidebar";
 
 import ModalCart from "./Modal/ModalCart";
 import ModalAvatar from "./Modal/ModalAvatar";
+import ModalDetailsProducts from "./Modal/ModalDetailsProducts";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,6 +40,7 @@ export default function RootLayout({
           <ToastContainer/>
           <ModalCart/>
           <ModalAvatar/>
+          <ModalDetailsProducts/>
           <Sidebar/>
           {children}
         </ContextProvider>

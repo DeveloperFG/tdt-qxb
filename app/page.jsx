@@ -21,6 +21,7 @@ import * as BsIcons from 'react-icons/bs';
 import firebase from "../app/firebase/db";
 
 import { toast } from 'react-toastify';
+import ModalDetailsProducts from "./Modal/ModalDetailsProducts";
 
     const style = {
       position: 'absolute',
@@ -40,7 +41,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [code, setCode] = useState('')
 
-  let {lista, setLista, listaCart, setListaCart} = useContext(ProdutoContext);
+  let {lista, setLista, listaCart, setListaCart, modalDetails, setModalDetails, setItemClicado} = useContext(ProdutoContext);
   let {open, setOpen} = useContext(ProdutoContext);
   let {dadosUser, setDadosUser, user, setUser, } = useContext(ProdutoContext);
   
@@ -157,33 +158,34 @@ export default function Home() {
 
 
 
-      function addCarrinho(item){
+      // FUNCÃO TEMPORARIAMENTE DESATIVADA
+      // function addCarrinho(item){
 
-        // console.log(item)
+      //   // console.log(item)
 
-        let randomCode = Math.floor(Math.random() * 100000000000) + 1;
+      //   let randomCode = Math.floor(Math.random() * 100000000000) + 1;
 
-        const verifica = (item) => {
-          const chaves = ['wmv', '3gp', 'mp4', 'mp3', 'avi'];
-         let teste = chaves.includes(item) ? "Encontrou" : "Não encontrou";
+      //   const verifica = (item) => {
+      //     const chaves = ['wmv', '3gp', 'mp4', 'mp3', 'avi'];
+      //    let teste = chaves.includes(item) ? "Encontrou" : "Não encontrou";
 
-          console.log(teste)
-       }
+      //     console.log(teste)
+      //  }
   
-        let newLista = {
-          id: item.id,
-          code: randomCode,
-          nome: item.nome,
-          preco: item.preco,
-          imagem: item.imagem,
-          quantidade: parseFloat(item.quantidade),
-          vendedor: item.vendedor
-        }
+      //   let newLista = {
+      //     id: item.id,
+      //     code: randomCode,
+      //     nome: item.nome,
+      //     preco: item.preco,
+      //     imagem: item.imagem,
+      //     quantidade: parseFloat(item.quantidade),
+      //     vendedor: item.vendedor
+      //   }
 
-        setListaCart(value => [...value, newLista])
-        toast.success('Adicionado:' + ' ' + item.nome)
+      //   setListaCart(value => [...value, newLista])
+      //   toast.success('Adicionado:' + ' ' + item.nome)
 
-      }
+      // }
     
 
     function deleteImg() {
@@ -231,6 +233,11 @@ export default function Home() {
   //   setCount(count);
   // }
 
+  function detailsProducts(item){
+    setModalDetails(true)
+    setItemClicado(item)
+  }
+
   return (
 
       <main className="flex flex-col w-full h-full justify-center items-center sm:ml-28 p-2">
@@ -276,9 +283,12 @@ export default function Home() {
               <span className="font-bold text-xs text-center truncate">{item.nome}</span>
               <span className="text-green-600 text-[10px]">Estoque: {item.quantidade}</span>
 
-              <Button className="w-full text-[10px] py-1" onClick={() => addCarrinho(item)}>
-                Adicionar
+              <Button className="w-full text-[10px] py-1" onClick={()=> detailsProducts(item)}>
+                Ver detalhes...
               </Button>
+              {/* <Button className="w-full text-[10px] py-1" onClick={() => addCarrinho(item)}>
+               Adicionar
+              </Button> */}
             </div>
           ))}
         </section>

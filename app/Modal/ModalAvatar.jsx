@@ -87,6 +87,14 @@ export default function ModalAvatar(){
     }
   
     async function updateAvatar() {
+
+      if(imgProduto == []){
+        toast.warn("Antes selecione uma imagem!", {
+                    icon: "🚫"
+                });
+        return;
+      }
+
       setLoading(true)
   
       let idCliente = user.uid
