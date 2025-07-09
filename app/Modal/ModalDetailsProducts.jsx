@@ -36,7 +36,6 @@ export default function ModalDetailsProducts(){
     let { modalDetails, setModalDetails } = useContext(ProdutoContext);
     let { dadosUser, lista, itemClicado } = useContext(ProdutoContext);
 
-
     console.log("item clicado", itemClicado)
 
     const handleClose = () => setModalDetails(false);
@@ -62,8 +61,10 @@ export default function ModalDetailsProducts(){
 
                                     <div style={{ borderBottom:"1px solid black", width:'100%', height:'0'}}></div>
                                     <div style={{ marginBottom:'10px'}}></div>
-                                    <small style={{color:'blue'}}>Vendedor: {dadosUser[0]?.nome}</small>
-                                    <small style={{color:'blue'}}>Contato: {dadosUser[0]?.contato}</small>
+                                    <small style={{color:'blue'}}>Vendedor: {itemClicado.nome_vendedor}</small>
+                                    <small style={{color:'blue'}}>Contato: {itemClicado.contato_vendedor}</small>
+                                    <small style={{color:'blue'}}>Whatsapp: {itemClicado.whats_vendedor ? itemClicado.whats_vendedor : "Não possui" }</small>
+                                    <small style={{color:'blue'}}>Id_: {itemClicado.id_vendedor}</small>
                                 </div>                                        
                         </div>
                 </Box>

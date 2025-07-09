@@ -62,12 +62,14 @@ import './styles.css'
 export default function Cadastrar() {
 
 
-  let { user, setUser} = useContext(ProdutoContext);
+  let { user, setUser, dadosUser} = useContext(ProdutoContext);
 
-  console.log("user", user.uid)
+
+  console.log("user logado no cadastrar", typeof user.uid)
+
 
   const[idProduto, setIdProduto] = useState('')
-  const[idVendedor, setIdVendedor] = useState('')
+  const[idVendedor, setIdVendedor] = useState('') 
 
   const[nome, setNome]= useState('')
   const[preco, setPreco] = useState('')
@@ -129,6 +131,7 @@ export default function Cadastrar() {
     }
 
     function handleOpenModal(){
+      console.log("user", user)
       if(user.uid === undefined){
           toast.warn("Faça login na plataforma para cadastrar seus itens!", {
                     icon: "🚫"
@@ -145,7 +148,7 @@ export default function Cadastrar() {
       setStatus('')
       setQuantidade('')
       
-      // setOpen(true)
+      setOpen(true)
     }
 
 
@@ -198,55 +201,46 @@ export default function Cadastrar() {
 
       }, [])
 
-    useEffect(()=> {
+    useEffect(() => {
+  setLoadLista(true)
 
-      setLoadLista(true)
+  async function getProdutos() {
+    try {
+      const snapshot = await firebase.firestore().collection('produtos').get()
+      const dataLista = []
 
-      async function getProdutos(){
+      snapshot.forEach((doc) => {
+        const data = doc.data()
 
-
-        await firebase.firestore().collection('produtos')
-      .get()
-      .then((snapshot) => {
-        
-        let dataLista = []
-
-        snapshot.forEach((doc) => {
-
+        if (data.id_vendedor == user.uid) {
           dataLista.push({
             id: doc.id,
-            nome: doc.data().nome,
-            preco: doc.data().preco,
-            imagem:doc.data().imagem,
-            uso: doc.data().uso,
-            descricao: doc.data().descricao,
-            vendedor: doc.data().vendedor,
-            status: doc.data().status,
-            quantidade: doc.data().quantidade,
+            nome: data.nome,
+            preco: data.preco,
+            imagem: data.imagem,
+            uso: data.uso,
+            descricao: data.descricao,
+            vendedor: data.vendedor,
+            status: data.status,
+            quantidade: data.quantidade,
+            id_vendedor: data.id_vendedor,
+            nome_vendedor: data.nome_vendedor,
+            contato_vendedor: data.contato_vendedor,
+            whats_vendedor: data.whats_vendedor,
           })
-
-          // localStorage.setItem('listaProdutos', JSON.stringify(dataLista))
-          
-        })
-
-        
-        setLoadLista(false)
-        setLista(dataLista)
-
-
+        }
       })
 
-      .catch((err) => {
-        // toast.error('Erro ao buscar no banco!' + err)
-        console.log('erro ao buscar no banco' + err)
-        })
+      setLista(dataLista)
+    } catch (err) {
+      console.log('Erro ao buscar no banco: ' + err)
+    } finally {
+      setLoadLista(false)
     }
-    
+  }
     getProdutos()
-    
 
-
-    }, [control])
+}, [control, user.uid])
 
 
       
@@ -315,7 +309,10 @@ export default function Cadastrar() {
                             imagem: urlFoto,
                             status: 'estoque',
                             quantidade: quantidade,
-                            vendedor: user.uid
+                            id_vendedor: user.uid,
+                            nome_vendedor: dadosUser[0].nome,
+                            contato_vendedor: dadosUser[0].contato,
+                            whats_vendedor: dadosUser[0].whats
                           })
   
                           .then(() => {
@@ -392,16 +389,18 @@ export default function Cadastrar() {
       await firebase.firestore().collection('produtos')
       .doc(item.id)
       .update({
-
           id: item.id,
           nome: item.nome,
           preco: item.preco,
           uso: item.uso,
           imagem: item.imagem,
           descricao: item.descricao,
-          vendedor: item.vendedor,
           quantidade: item.quantidade,
           status:'publicados',
+          id_vendedor: user.uid,
+          nome_vendedor: item.nome_vendedor,
+          contato_vendedor: item.contato_vendedor,
+          whats_vendedor: item.whats_vendedor,
       })
 
       .then(() => {

@@ -46,6 +46,8 @@ export default function Home() {
   let {dadosUser, setDadosUser, user, setUser, } = useContext(ProdutoContext);
   
 
+  console.log("list no home", lista)
+
   const [publicados, setPublicados]= useState([])
   const [quantidade, setQuantidade]= useState('')
 
@@ -126,6 +128,10 @@ export default function Home() {
                 vendedor: doc.data().vendedor,
                 quantidade: doc.data().quantidade,
                 status: doc.data().status,
+                id_vendedor: doc.data().id_vendedor,
+                nome_vendedor: doc.data().nome_vendedor,
+                contato_vendedor: doc.data().contato_vendedor,
+                whats_vendedor: doc.data().whats_vendedor,
               })
 
               const publicados = dataLista.filter(dados => dados.status == 'publicados');
