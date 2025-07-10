@@ -87,12 +87,29 @@ export default function Sidebar() {
       }, [])
 
 
-    async function fazerLogout() {
-        await firebase.auth().signOut();
-        localStorage.removeItem('usuarioLogado');
-        window.location.href = "/";
-    
-    }
+   async function fazerLogout() {
+  try {
+    const user = firebase.auth().currentUser;
+    const userRef = firebase.firestore().collection('usuarios').doc(user.uid);
+
+    // Atualiza o campo online para false
+    await userRef.update({
+      online: false,
+      ultimoLogin: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // Faz o logout
+    await firebase.auth().signOut();
+
+    // Limpa dados locais
+    localStorage.removeItem('usuarioLogado');
+
+    // Redireciona para a página inicial
+    window.location.href = "/";
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+  }
+}
 
     
     const StyledBadge = styled(Badge)(({ theme }) => ({
