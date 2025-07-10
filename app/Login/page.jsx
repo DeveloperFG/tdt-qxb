@@ -44,55 +44,57 @@ export default function Login() {
     let {openDial, setOpenDial, user, setUser } = useContext(ProdutoContext);
 
 
-  async function handleLogin(){
+  async function handleLogin() {
+  if (email === '' || password === '') {
+    toast.warning("Preencha todos os campos");
+    return;
+  }
 
-        if( email == '' || password == ''){
-            toast.warning("Preencha todos os campos")
-            return;
-        }
+  setLoad(true);
 
-        setLoad(true)
+  await firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(async (value) => {
+      const uid = value.user.uid;
+      const userRef = firebase.firestore().collection('usuarios').doc(uid);
 
-        await firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(async (value)=>{
+      // Atualiza 'online' e 'ultimoLogin'
+      await userRef.update({
+        online: true,
+        ultimoLogin: firebase.firestore.FieldValue.serverTimestamp(),
+      });
 
-        await firebase.firestore().collection('usuarios')
-        .doc(value.user.uid)
-        .get()
-        .then((snapshot)=>{
+      // Pega os dados do usuário
+      await userRef.get().then((snapshot) => {
+        const data = snapshot.data();
 
-            let dataUser = [];
+        let dataUser = [];
 
-            dataUser.push({
-            uid: snapshot.data().uid,
-            nome: snapshot.data().nome,
-            email: snapshot.data().email,
-            contato: snapshot.data().contato,
-            telefone: snapshot.data().telefone,
-            whats: snapshot.data().whatsapp,
-            avatar: snapshot.data().avatar,
-            status: snapshot.data().status,
+        dataUser.push({
+          uid: data.uid,
+          nome: data.nome,
+          email: data.email,
+          contato: data.contato,
+          telefone: data.telefone,
+          whats: data.whatsapp,
+          avatar: data.avatar,
+          status: data.status,
+          ultimoLogin: data.ultimoLogin,
+        });
 
-            })
-            setLoad(false)
-            toast.success('Logado com sucesso!')
-            localStorage.setItem('usuarioLogado', JSON.stringify(dataUser))
-            
-        })
-            window.location.href = "/";
-        // <Redirect to='/Cadastrar' />
+        setLoad(false);
+        toast.success('Logado com sucesso!');
+        localStorage.setItem('usuarioLogado', JSON.stringify(dataUser));
 
-
-        })
-        .catch((error)=>{
-        toast.error('Erro ao logar!!!' + error)
-        console.log('Deu algum erro' + error)
-        setLoad(false)
-        
-        })
-    
-    
-    }      
+        // Redireciona
+        window.location.href = "/";
+      });
+    })
+    .catch((error) => {
+      toast.error('Erro ao logar: ' + error.message);
+      console.log('Erro no login:', error);
+      setLoad(false);
+    });
+}    
 
 
   return (
@@ -105,7 +107,7 @@ export default function Login() {
         <Image src={logo} width={300} height={300} alt='logo' />
        
             <Typography id="modal-modal-title" variant="h6" component="h2" className='w-4/5 text-blue-950 text-base tex-start mb-1'>
-                 Faça seu login
+                 Faça seu login & comece...
             </Typography> 
            
         <Box width='80%' alignItems='center' justifyContent='center '>
@@ -123,7 +125,7 @@ export default function Login() {
             </Box>
 
             <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' marginTop={1.5}>
-                <Link href='#'>
+                <Link href='/Recover'>
                     Esqueceu a senha?
                 </Link>
 

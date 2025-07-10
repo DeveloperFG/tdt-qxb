@@ -33,6 +33,7 @@ export default function Sidebar() {
 
     let {open, setOpen, openModalAvatar, setOpenModalAvatar, modalCart, setModalCart} = useContext(ProdutoContext);
 
+
     const handleClose = () => setOpen(false);
 
     function handleOpen(){
@@ -347,15 +348,15 @@ export default function Sidebar() {
                 </Sheet>
                 <div style={{width:"100%", display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center',}}>
             
-                   <div style={{display:'flex', flexDirection:'row', width:'40%', alignItems: 'center', justifyContent:'center', }}>
+                   <div style={{display:'flex', flexDirection:'row', width:'100%',}}>
                     <Link href='/'>
                             <small className="text-white  font-bold">TDT - QXB</small>
                     </Link>
                     
                    </div>
 
-                  
-                    <div style={{marginLeft:'55%', width:'100px'}}>
+                  {user && (
+                        <div style={{marginLeft:'55%', width:'100px'}}>
                                 <StyledBadge
                                     overlap="circular"
                                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -364,9 +365,8 @@ export default function Sidebar() {
                                  <Avatar src={urlAvatar.map((item)=> item.avatar) != '' ? urlAvatar.map((item)=> item.avatar) : avatar} style={{width:'25px', height:'25px'}} onClick={ModalAvatar} />
                             </StyledBadge>
                      </div>
-    
-                  
-
+                  )}
+                   
                     <div style={{display:'flex', width: '15%', height:'auto' , alignItems:'end', justifyContent:'end',}}>
                         <ShoppingCart className="h-6 w-6 text-white " onClick={handleOpen} style={{marginRight: '-20px'}}/> 
                         <div style={{ display:'flex', width:'13px', height:'13px', alignItems:'center', justifyContent:'center', marginLeft:'10px', backgroundColor:'red', borderRadius:'50%'}}>

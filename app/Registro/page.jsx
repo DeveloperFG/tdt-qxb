@@ -83,7 +83,6 @@ export default function Registro() {
               setEmail('')
               setPassword('')
               setContato('')
-
               setLoad(false)
 
               window.location.href = "./Login";

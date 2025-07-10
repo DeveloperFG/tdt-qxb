@@ -21,7 +21,6 @@ import * as BsIcons from 'react-icons/bs';
 import firebase from "../app/firebase/db";
 
 import { toast } from 'react-toastify';
-import ModalDetailsProducts from "./Modal/ModalDetailsProducts";
 
     const style = {
       position: 'absolute',
@@ -46,7 +45,7 @@ export default function Home() {
   let {dadosUser, setDadosUser, user, setUser, } = useContext(ProdutoContext);
   
 
-  console.log("list no home", lista)
+  console.log("user no home", user.uid)
 
   const [publicados, setPublicados]= useState([])
   const [quantidade, setQuantidade]= useState('')
@@ -100,7 +99,7 @@ export default function Home() {
 
           checkLogin();
 
-        }, [])
+        }, [setUser])
 
 
         useEffect(()=> {
@@ -132,6 +131,7 @@ export default function Home() {
                 nome_vendedor: doc.data().nome_vendedor,
                 contato_vendedor: doc.data().contato_vendedor,
                 whats_vendedor: doc.data().whats_vendedor,
+                ultimoLogin: doc.data().ultimoLogin,
               })
 
               const publicados = dataLista.filter(dados => dados.status == 'publicados');
@@ -240,27 +240,56 @@ export default function Home() {
   // }
 
   function detailsProducts(item){
+    if(user === undefined){
+          toast.warn("Faça login na plataforma para ver detalhes sobre os itens!", {
+                    icon: "🚫"
+                });
+          return;
+      }
     setModalDetails(true)
     setItemClicado(item)
   }
 
+  useEffect(() => {
+  async function carregarDados() {
+    const usuarioLogado = await firebase.auth().currentUser;
+    if (usuarioLogado) {
+      const snap = await firebase.firestore().collection('usuarios').doc(usuarioLogado.uid).get();
+      setUser(usuarioLogado.email);
+      setDadosUser([{ nome: snap.data().nome }]);
+    }
+    setLoading(false);
+  }
+
+  carregarDados();
+}, []);
+
+const BemVindo = ({ user, dadosUser, loading }) => {
+  if (loading || !user || dadosUser.length === 0) {
+    return null;
+  }
+
+  return (
+    <div style={{ marginBottom: '1%' }}>
+      <small style={{ color: 'green' }}>
+        {'olá: ' + dadosUser.map((item) => item.nome).join(', ')}
+      </small>
+    </div>
+  );
+};
+
   return (
 
       <main className="flex flex-col w-full h-full justify-center items-center sm:ml-28 p-2">
-        <div style={{ marginBottom: '1%' }}>
-          {user !== '' && (
-            <small style={{ color: 'green' }}>
-              {'olá: ' + dadosUser.map((item) => item.nome)}
-            </small>
-          )}
-        </div>
+
+       <BemVindo user={user} dadosUser={dadosUser} loading={loading} />
 
         {lista === '' ? (
           <h1 className="text-2xl mb-8">
             {lista !== '' ? 'Ainda não há itens publicados...' : 'Carregando...'}
           </h1>
         ) : (
-          <h1 className="text-2xl mb-8 font-bold">Publicados recentes</h1>
+          <h1 className="text-2xl mb-8 font-bold">Ultimas publicões</h1>
         )}
 
         <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-self-center self-center">

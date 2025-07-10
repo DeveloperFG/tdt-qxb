@@ -65,9 +65,6 @@ export default function Cadastrar() {
   let { user, setUser, dadosUser} = useContext(ProdutoContext);
 
 
-  console.log("user logado no cadastrar", typeof user.uid)
-
-
   const[idProduto, setIdProduto] = useState('')
   const[idVendedor, setIdVendedor] = useState('') 
 
@@ -131,7 +128,6 @@ export default function Cadastrar() {
     }
 
     function handleOpenModal(){
-      console.log("user", user)
       if(user.uid === undefined){
           toast.warn("Faça login na plataforma para cadastrar seus itens!", {
                     icon: "🚫"
@@ -227,6 +223,7 @@ export default function Cadastrar() {
             nome_vendedor: data.nome_vendedor,
             contato_vendedor: data.contato_vendedor,
             whats_vendedor: data.whats_vendedor,
+            ultimoLogin: data.ultimoLogin,
           })
         }
       })
@@ -312,7 +309,8 @@ export default function Cadastrar() {
                             id_vendedor: user.uid,
                             nome_vendedor: dadosUser[0].nome,
                             contato_vendedor: dadosUser[0].contato,
-                            whats_vendedor: dadosUser[0].whats
+                            whats_vendedor: dadosUser[0].whats,
+                            ultimoLogin: dadosUser[0].ultimoLogin
                           })
   
                           .then(() => {
@@ -401,6 +399,7 @@ export default function Cadastrar() {
           nome_vendedor: item.nome_vendedor,
           contato_vendedor: item.contato_vendedor,
           whats_vendedor: item.whats_vendedor,
+          ultimoLogin: item.ultimoLogin,
       })
 
       .then(() => {
@@ -629,7 +628,7 @@ export default function Cadastrar() {
           
           <Box display='flex' flexDirection='column' width='100%' height='100%' alignItems='center' justifyContent='center' >
 
-              {lista == '' ? 'Você ainda não tem itens cadastrados...' : <h1 className="text-2x1 mb-12  "> {lista == '' ? 'Carregando itens...' : 'Meus itens'} </h1>}
+              {user.uid === undefined ?  <h1 className="text-2x1 mb-12  "> Faça login para ver seus itens cadastrados...</h1> : lista == '' ? 'Você ainda não tem itens cadastrados...' : <h1 className="text-2x1 mb-12  "> {lista == '' ? 'Carregando itens...' : 'Meus itens'} </h1> }
 
             {loadLista == true ? <Load/> : (
               <>

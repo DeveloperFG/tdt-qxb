@@ -36,7 +36,22 @@ export default function ModalDetailsProducts(){
     let { modalDetails, setModalDetails } = useContext(ProdutoContext);
     let { dadosUser, lista, itemClicado } = useContext(ProdutoContext);
 
+    const timestamp = itemClicado.ultimoLogin
+
     console.log("item clicado", itemClicado)
+
+    // const formatarData = (timestamp) => {
+    //     if (!timestamp) return '';
+    //         const data = timestamp.toDate(); // Firestore Timestamp → JS Date
+    //      return data.toLocaleString('pt-BR'); // ou use date-fns/moment
+    // };
+
+    const formatarData = (timestamp) => {
+            if (!timestamp || !timestamp.seconds) return '---';
+
+            const date = new Date(timestamp.seconds * 1000); // segundos → milissegundos
+            return date.toLocaleString('pt-BR'); // Ex: 09/07/2025 21:11:23
+    };
 
     const handleClose = () => setModalDetails(false);
 
@@ -64,7 +79,9 @@ export default function ModalDetailsProducts(){
                                     <small style={{color:'blue'}}>Vendedor: {itemClicado.nome_vendedor}</small>
                                     <small style={{color:'blue'}}>Contato: {itemClicado.contato_vendedor}</small>
                                     <small style={{color:'blue'}}>Whatsapp: {itemClicado.whats_vendedor ? itemClicado.whats_vendedor : "Não possui" }</small>
-                                    <small style={{color:'blue'}}>Id_: {itemClicado.id_vendedor}</small>
+                                    <div style={{ borderBottom:"1px solid black", width:'100%', height:'0'}}></div>
+                                    <div style={{ marginBottom:'10px'}}></div>
+                                    <small style={{color:'blue'}}>Ultimo login: {formatarData(itemClicado.ultimoLogin)}</small>
                                 </div>                                        
                         </div>
                 </Box>
