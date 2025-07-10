@@ -98,7 +98,7 @@ export default function Sidebar() {
       ultimoLogin: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-    // Faz o logout
+    // Faz o logout do site
     await firebase.auth().signOut();
 
     // Limpa dados locais
