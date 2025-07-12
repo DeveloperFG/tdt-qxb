@@ -44,9 +44,6 @@ export default function Home() {
   let {open, setOpen} = useContext(ProdutoContext);
   let {dadosUser, setDadosUser, user, setUser, } = useContext(ProdutoContext);
   
-
-  console.log("lista no home", lista)
-
   const [publicados, setPublicados]= useState([])
   const [quantidade, setQuantidade]= useState('')
 
