@@ -36,9 +36,11 @@ export default function ModalDetailsProducts(){
     let { modalDetails, setModalDetails } = useContext(ProdutoContext);
     let { dadosUser, lista, itemClicado } = useContext(ProdutoContext);
 
-    const timestamp = itemClicado.ultimoLogin
+    const timestamp = itemClicado?.ultimoLogin
 
-    console.log("item clicado", itemClicado)
+    const resultado = lista.filter(item => item.id === itemClicado.id);
+
+    console.log("resultado", resultado[0]?.ultimoLogin)
 
     // const formatarData = (timestamp) => {
     //     if (!timestamp) return '';
@@ -81,7 +83,7 @@ export default function ModalDetailsProducts(){
                                     <small style={{color:'blue'}}>Whatsapp: {itemClicado.whats_vendedor ? itemClicado.whats_vendedor : "Não possui" }</small>
                                     <div style={{ borderBottom:"1px solid black", width:'100%', height:'0'}}></div>
                                     <div style={{ marginBottom:'10px'}}></div>
-                                    <small style={{color:'blue'}}>Ultimo login: {formatarData(itemClicado.ultimoLogin)}</small>
+                                    <small style={{color:'blue'}}>Ultimo login: {formatarData(resultado[0]?.ultimoLogin)}</small>
                                 </div>                                        
                         </div>
                 </Box>

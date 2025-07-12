@@ -1,6 +1,9 @@
 'use client'
 import * as React from 'react';
 
+// navegação
+import Link from 'next/link';
+
 // hooks
 import { useState, useEffect, useContext } from "react";
 
@@ -629,6 +632,9 @@ export default function Cadastrar() {
           <Box display='flex' flexDirection='column' width='100%' height='100%' alignItems='center' justifyContent='center' >
 
               {user.uid === undefined ?  <h1 className="text-2x1 mb-12  "> Faça login para ver seus itens cadastrados...</h1> : lista == '' ? 'Você ainda não tem itens cadastrados...' : <h1 className="text-2x1 mb-12  "> {lista == '' ? 'Carregando itens...' : 'Meus itens'} </h1> }
+                              <Link href='/Login' style={{color:'blue'}}>
+                                 Fazer login!
+                              </Link>
 
             {loadLista == true ? <Load/> : (
               <>

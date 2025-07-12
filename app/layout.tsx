@@ -13,6 +13,7 @@ import ModalAvatar from "./Modal/ModalAvatar";
 import ModalDetailsProducts from "./Modal/ModalDetailsProducts";
 
 import { ToastContainer } from 'react-toastify';
+import RouteLoader from "../components/RouterLoader/RouterLoader";
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className={cn("main-h-screen- bg-background font-sans antialiased"
         , inter.className
       )}>
+        <RouteLoader />
         <ContextProvider>
           <ToastContainer/>
           <ModalCart/>
