@@ -50,8 +50,6 @@ export default function Home() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log("user no Home ", Boolean(user))
-
           useEffect(() => {
               const storageUser = localStorage.getItem('usuarioLogado');
 
@@ -77,43 +75,7 @@ export default function Home() {
         // }, [])
 
 
-        async function handleLogin() {
-          
-          await firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(async (value) => {
-              const uid = value.user.uid;
-              const userRef = firebase.firestore().collection('usuarios').doc(uid);
-              // Pega os dados do usuário
-              await userRef.get().then((snapshot) => {
-                const data = snapshot.data();
-        
-                let dataUser = [];
-        
-                dataUser.push({
-                  uid: data.uid,
-                  nome: data.nome,
-                  email: data.email,
-                  contato: data.contato,
-                  telefone: data.telefone,
-                  whats: data.whatsapp,
-                  avatar: data.avatar,
-                  status: data.status,
-                  ultimoLogin: data.ultimoLogin,
-                });
-        
-                
-        
-                // Redireciona
-                window.location.href = "/";
-              });
-            })
-            .catch((error) => {
-              toast.error('Erro ao logar: ' + error.message);
-              console.log('Erro no login:', error);
-              setLoad(false);
-            });
-        }    
-
+       
 
         useEffect(() => {
           
@@ -172,7 +134,6 @@ export default function Home() {
               })
 
               const publicados = dataLista.filter(dados => dados.status == 'publicados');
-              console.log("antes de setar os itens ")
               setLista(publicados)
 
               const colunaQuantidade = dataLista.map((item)=> parseFloat(item.quantidade))

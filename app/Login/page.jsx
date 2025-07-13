@@ -70,7 +70,7 @@ export default function Login() {
         let dataUser = [];
 
         dataUser.push({
-          uid: data.uid,
+          uid: uid,
           nome: data.nome,
           email: data.email,
           contato: data.contato,
@@ -106,7 +106,7 @@ export default function Login() {
 
         <Image src={logo} width={300} height={300} alt='logo' />
        
-            <Typography id="modal-modal-title" variant="h6" component="h2" className='w-4/5 text-blue-950 text-base tex-start mb-1'>
+            <Typography id="modal-modal-title" variant="h6" component="h2" className='w-4/5 text-blue-950 text-base tex-start mb-2'>
                  Faça seu login & comece...
             </Typography> 
            

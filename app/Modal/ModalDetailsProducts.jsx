@@ -1,12 +1,14 @@
 'use client'
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ProdutoContext } from "@/context";
+import firebase from '../firebase/db';
 
 import Image from "next/image";
 
 import { Modal } from "@mui/material";
 import Box from '@mui/material/Box';
+
 
 import Typography from '@mui/material/Typography';
 import {CircleX } from "lucide-react";
@@ -34,19 +36,46 @@ const style = {
 export default function ModalDetailsProducts(){
 
     let { modalDetails, setModalDetails } = useContext(ProdutoContext);
-    let { dadosUser, lista, itemClicado } = useContext(ProdutoContext);
+    let { dadosUser, setDadosUser,  lista, itemClicado } = useContext(ProdutoContext);
+
+    const[accessLast, setAccessLast] = useState([])
 
     const timestamp = itemClicado?.ultimoLogin
 
     const resultado = lista.filter(item => item.id === itemClicado.id);
 
-    console.log("resultado", resultado[0]?.ultimoLogin)
 
-    // const formatarData = (timestamp) => {
-    //     if (!timestamp) return '';
-    //         const data = timestamp.toDate(); // Firestore Timestamp → JS Date
-    //      return data.toLocaleString('pt-BR'); // ou use date-fns/moment
-    // };
+    console.log("itemClicado.id no modal", itemClicado.id_vendedor)
+
+    console.log("dadosUser uid no modal", dadosUser)
+
+
+    console.log("accessLast nome no modal", accessLast.ultimoLogin)
+
+
+
+
+   useEffect(() => {
+    async function buscarUsuarioPorId() {
+        try {
+        const userRef = firebase.firestore().collection('usuarios').doc(itemClicado?.id_vendedor);
+        const doc = await userRef.get();
+
+        if (doc.exists) {
+            console.log("estar dentro do useEffect");
+            setAccessLast(doc.data());
+        } else {
+            console.log("Usuário não encontrado");
+        }
+        } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+        }
+    }
+
+  buscarUsuarioPorId(); // <<< chamada da função aqui
+}, [itemClicado?.id_vendedor]);
+  
+    
 
     const formatarData = (timestamp) => {
             if (!timestamp || !timestamp.seconds) return '---';
@@ -83,7 +112,7 @@ export default function ModalDetailsProducts(){
                                     <small style={{color:'blue'}}>Whatsapp: {itemClicado.whats_vendedor ? itemClicado.whats_vendedor : "Não possui" }</small>
                                     <div style={{ borderBottom:"1px solid black", width:'100%', height:'0'}}></div>
                                     <div style={{ marginBottom:'10px'}}></div>
-                                    <small style={{color:'blue'}}>Ultimo login: {formatarData(resultado[0]?.ultimoLogin)}</small>
+                                    <small style={{color:'blue'}}>Ultimo login: {formatarData(accessLast.ultimoLogin)}</small>
                                 </div>                                        
                         </div>
                 </Box>
