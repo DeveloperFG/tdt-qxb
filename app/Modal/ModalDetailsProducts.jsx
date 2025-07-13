@@ -112,7 +112,7 @@ export default function ModalDetailsProducts(){
                                     <small style={{color:'blue'}}>Whatsapp: {itemClicado.whats_vendedor ? itemClicado.whats_vendedor : "Não possui" }</small>
                                     <div style={{ borderBottom:"1px solid black", width:'100%', height:'0'}}></div>
                                     <div style={{ marginBottom:'10px'}}></div>
-                                    <small style={{color:'blue'}}>Ultimo login: {formatarData(accessLast.ultimoLogin)}</small>
+                                    <small style={{color:'blue'}}>Ultimo acesso: {formatarData(accessLast.ultimoLogin)}</small>
                                 </div>                                        
                         </div>
                 </Box>

@@ -213,7 +213,7 @@ export default function Sidebar() {
                                     onClick={() => handleNavigate("/")}
                                     className="flex justify-start items-center gap-4 px-2.5 text-white hover:bg-muted"
                                     >
-                                    <ShoppingBag className="h-5 w-5 text-white" />
+                                    <Menu className="h-5 w-5 text-white" />
                                     Inicio
                                     </Button>
                                                                     <Button
@@ -221,7 +221,7 @@ export default function Sidebar() {
                                     onClick={() => handleNavigate("/Pedidos")}
                                     className="flex justify-start items-center gap-4 px-2.5 text-white hover:bg-muted"
                                     >
-                                    <ShoppingBag className="h-5 w-5 text-white" />
+                                    <Package className="h-5 w-5 text-white" />
                                     Pedidos
                                     </Button>
                                                                 <Button
@@ -237,7 +237,7 @@ export default function Sidebar() {
                                     onClick={() => handleNavigate("/Cadastrar")}
                                     className="flex justify-start items-center gap-4 px-2.5 text-white hover:bg-muted"
                                     >
-                                    <ShoppingBag className="h-5 w-5 text-white" />
+                                    <PackagePlus className="h-5 w-5 text-white" />
                                     Cadastrar
                                     </Button>
                                                                     <Button
@@ -245,7 +245,7 @@ export default function Sidebar() {
                                     onClick={() => handleNavigate("/Usuario")}
                                     className="flex justify-start items-center gap-4 px-2.5 text-white hover:bg-muted"
                                     >
-                                    <ShoppingBag className="h-5 w-5 text-white" />
+                                    <Users className="h-5 w-5 text-white" />
                                         Usuario
                                     </Button>
 
@@ -255,7 +255,7 @@ export default function Sidebar() {
                                         onClick={fazerLogout} 
                                         className="flex justify-start items-center gap-4 px-2.5 text-white hover:bg-muted"
                                         >
-                                        <ShoppingBag className="h-5 w-5 text-white" />
+                                        <LogOut className="h-5 w-5 text-white" />
                                         Sair
                                         </Button>
                                                                         ) : (
@@ -264,7 +264,7 @@ export default function Sidebar() {
                                         onClick={() => handleNavigate("/Login")}
                                         className="flex justify-start items-center gap-4 px-2.5 text-white hover:bg-muted"
                                         >
-                                        <ShoppingBag className="h-5 w-5 text-white" />
+                                        <Users className="h-5 w-5 text-white" />
                                         Fazer login
                                         </Button>
                                                                         )}

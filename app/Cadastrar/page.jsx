@@ -101,6 +101,8 @@ export default function Cadastrar() {
 
   const [quantidade, setQuantidade] = useState('')
 
+  const [teste, setTest] = useState(false)
+
 
   const handleFocus = () => {
     setIsFocus(true)
@@ -230,7 +232,6 @@ export default function Cadastrar() {
           })
         }
       })
-
       setLista(dataLista)
     } catch (err) {
       console.log('Erro ao buscar no banco: ' + err)
@@ -347,7 +348,6 @@ export default function Cadastrar() {
 
 
       async function EditarItem(){
-
             await firebase.firestore().collection('produtos')
             .doc(idProduto)
             .update({
@@ -356,7 +356,6 @@ export default function Cadastrar() {
                 uso: uso,
                 descricao: descricao,
                 imagem: imgProduto,
-                vendedor: idVendedor,
                 quantidade: quantidade,
                 status: status
             })
@@ -370,8 +369,8 @@ export default function Cadastrar() {
                 setDescricao('')
                 setImgProduto('')
                 setStatus('')
-                setIdVendedor('')
                 setQuantidade('')
+                setTimeout(setControl(!control), 2000)
             })
             .catch((error) => {
                 toast.error('Erro ao atualizar!' + error)
@@ -632,13 +631,13 @@ export default function Cadastrar() {
           <Box display='flex' flexDirection='column' width='100%' height='100%' alignItems='center' justifyContent='center' >
 
   
-              {user.uid === undefined ?
+              {!user.uid ?
               <Box display='flex' flexDirection='column' width='100%' height='100%' alignItems='center' justifyContent='center'>
-                 <h1 className="text-2x1 mb-5  "> Faça login para ver seus itens cadastrados...</h1>
+                 <strong className="text-2x1 mb-5  "> Faça login para ver seus itens cadastrados...</strong>
                   <Link href='/Login' style={{color:'blue' }}>
-                      Fazer login!
+                      Click aqui!
                   </Link>
-              </Box> : lista == '' ? 'Você ainda não tem itens cadastrados...' : <h1 className="text-2x1 mb-12  "> {lista == '' ? 'Carregando itens...' : 'Meus itens'} </h1> }
+              </Box> : lista == '' ? 'Você ainda não tem itens cadastrados...' : <strong className="text-2x1 mb-12  "> {lista == '' ? 'Carregando itens...' : 'Meus itens'} </strong> }
                               
                               
 
@@ -649,36 +648,39 @@ export default function Cadastrar() {
                     return(
                       <div key={index} style={{display:'flex', width:'100%', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
 
-                        <Card sx={{ maxWidth: '100%' }} style={{marginBottom:'12px',}}>
+                        <Card sx={{ maxWidth: '100%' }} style={{marginBottom:'12px'}}>                                                                                                                                                                 
                             <CardActionArea style={{display:'flex',  width:'98%', justifyContent:'space-between'}}>
-                              <CardMedia style={{objectFit:'contain' , width:"50%", alignItems:'center', justifyContent: 'center',}}
+                              <CardMedia style={{objectFit:'contain' , width:"100px", alignItems:'center', justifyContent: 'center', marginRight: '20px', marginLeft: '2%'}}
                                 component="img"
                                 // width='400px'
                                 // height="40"
                                 image={item.imagem}
                                 alt={item.nome}
                               />
-                              <CardContent style={{ display:'flex', width:'50%', height: '30%',  flexDirection:'column', alignItems:'start', justifyContent: 'start'}}>
-                                <Typography gutterBottom variant="h5" component="div" width='100%'>
-                                  {item.nome}
+                              <CardContent style={{ display:'flex', width:'80%', height: '100%', flexDirection:'column', alignItems:'start', justifyContent: 'start'}}>
+                                <Typography gutterBottom variant="h7" component="div" width='100%' padding={1.5}>
+                                  <strong>{item.nome}</strong> 
                                 </Typography>
-                                <CardContent style={{width:'100%'}}>
-                                    <Typography variant="body2" sx={{ color: 'text.secondary' }} width='100%'>
-                                    <small>Uso: {item.uso} </small> 
+                                <CardContent style={{ display:'flez', width:'100%'}}>
+                                    <Typography variant="body2" sx={{ color: 'text.secondary'}} marginTop='-20%' width='100%'>
+                                    <p style={{fontWeight:'bold', color:'black'}}>Uso: <small style={{color:'GrayText'}}> {item.uso} </small>  </p> 
                                     </Typography>
                                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                      <small>Descrição: {item.descricao}</small>
+                                      <p style={{fontWeight:'bold', color:'black'}}>Preço: <small style={{color:'GrayText'}}> {(item.preco).toFixed(2)} </small></p>
                                     </Typography>
                                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                      <small>Preço: {(item.preco).toFixed(2)}</small>
+                                      <p style={{fontWeight:'bold', color:'black'}}>Status: <small style={{color:'GrayText'}}> {item.status == "publicados" ? 'publicado' : 'estoque'} </small></p>
                                     </Typography>
                                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                      <small style={{fontWeight:'bold', color:'blue'}}>QUANT: {item.quantidade}</small>
+                                      <p style={{fontWeight:'bold', color:'black'}}>Quantidade: <small style={{color:'GrayText'}}> {item.quantidade} </small></p>
                                     </Typography>
+                                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                      <p style={{fontWeight:'bold', color:'black'}}>Descrição: <small style={{color:'GrayText'}}> {item.descricao} </small></p>
+                                    </Typography>                         
                                 </CardContent>
                               </CardContent>
                             </CardActionArea>
-                            <CardActions style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+                            <CardActions style={{ width:'98%', display:'flex', alignItems:'center', justifyContent:'center', marginTop: '-5%'}}>
                               <Button  color="primary" onClick={()=> handleOpenModalEdit(item)}>
                                 Editar Item
                               </Button>
