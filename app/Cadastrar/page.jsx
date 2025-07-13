@@ -518,19 +518,22 @@ export default function Cadastrar() {
                       <TextField id="outlined-basic" type='number' label="Quantidade" variant="outlined" value={quantidade} onChange={(txt)=> setQuantidade(txt.target.value)} className="w-full" />
                   </Box>    
                 
-                <Box display='flex' width='100%' flexDirection='row' alignItems='center' justifyContent='start' marginTop='3%'>
-                  <Box display='flex' width='100%' alignItems='start' justifyContent='start'>
-                        {/* <span style={{fontSize:'12px'}}>Imagem do produto :</span> */}
-                          <label for='arquivo' className='label-input'>Enviar arquivo <FileUploadIcon color="white"/> </label>
-                          <input type='file' name='arquivo' id='arquivo' multiple accept='image/*' value={inputProduto} onChange={handleFile} />         
-                  </Box>
                   
-                  <Box display='flex' width='90%' justifyContent='start'>
-                      <small>{imgProduto.name}</small>
+                  <Box display='flex' width='100%' alignItems='start' justifyContent='start'>
+                        <label htmlFor='arquivo' className='label-input'>
+                          Enviar arquivo <FileUploadIcon color="white" />
+                        </label>
+                        <input
+                          type='file'
+                          name='arquivo'
+                          id='arquivo'
+                          multiple
+                          accept='image/*'
+                          capture="environment"
+                          onChange={handleFile}
+                          style={{ display: 'none' }} // se quiser esconder o input e usar só o label
+                        />
                   </Box>
-                 
-                </Box>
-
                 <Box width='40%' marginTop='1%'>
                         {imgProduto.length != '' && load == false && (
                          <Box display='flex' width='150px' alignItems='center' justifyContent='start' >

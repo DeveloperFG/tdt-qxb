@@ -159,7 +159,7 @@ export default function Registro() {
             </Box>
 
             <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' marginTop={1.5}>
-                <Link href='#'>
+                <Link href='/Recover'>
                     Esqueceu a senha?
                 </Link>
 
