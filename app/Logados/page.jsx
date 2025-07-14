@@ -44,9 +44,6 @@ export default function Logados() {
   return () => unsubscribe(); // limpa o listener
 }, []);
 
-    console.log("user online", usuariosOnline)
-
-
     return (
          <Box display='flex' flexDirection='column' width='100%' height='100%' alignItems='center' justifyContent='center' >
 

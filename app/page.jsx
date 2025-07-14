@@ -47,6 +47,9 @@ export default function Home() {
   const [publicados, setPublicados]= useState([])
   const [quantidade, setQuantidade]= useState('')
 
+
+  console.log("item clicaddo", itemClicado)
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

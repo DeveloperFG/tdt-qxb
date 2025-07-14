@@ -9,6 +9,10 @@ import Image from "next/image";
 import { Modal } from "@mui/material";
 import Box from '@mui/material/Box';
 
+import { FaWhatsapp, FaWhatsappSquare  } from "react-icons/fa";
+import { BsTelephoneForward, BsTelephoneForwardFill  } from "react-icons/bs";
+import { FaStar } from 'react-icons/fa';
+
 
 import Typography from '@mui/material/Typography';
 import {CircleX } from "lucide-react";
@@ -44,15 +48,7 @@ export default function ModalDetailsProducts(){
 
     const resultado = lista.filter(item => item.id === itemClicado.id);
 
-
-    console.log("itemClicado.id no modal", itemClicado.id_vendedor)
-
-    console.log("dadosUser uid no modal", dadosUser)
-
-
-    console.log("accessLast nome no modal", accessLast.ultimoLogin)
-
-
+    console.log('dados do vendedor ao clicar no item', accessLast)
 
 
    useEffect(() => {
@@ -86,6 +82,40 @@ export default function ModalDetailsProducts(){
 
     const handleClose = () => setModalDetails(false);
 
+
+        const StarRating = ({ totalStars = 5 }) => {
+                const [rating, setRating] = useState(0);       // Valor clicado
+                const [hover, setHover] = useState(null);       // Valor quando passa o mouse
+
+                return (
+                    <div style={{ display: 'flex', gap: '8px', cursor: 'pointer' }}>
+                    {[...Array(totalStars)].map((_, index) => {
+                        const currentRating = index + 1;
+
+                        return (
+                        <label key={index}>
+                            <input
+                            type="radio"
+                            name="rating"
+                            value={currentRating}
+                            onClick={() => setRating(currentRating)}
+                            style={{ display: 'none' }}
+                            />
+                            <FaStar
+                            size={15}
+                            color={
+                                currentRating <= (hover || rating) ? '#ffc107' : '#e4e5e9'
+                            }
+                            onMouseEnter={() => setHover(currentRating)}
+                            onMouseLeave={() => setHover(null)}
+                            />
+                        </label>
+                        );
+                    })}
+                    </div>
+                );
+                };
+
     return(
            <div> 
                 <Modal 
@@ -95,8 +125,7 @@ export default function ModalDetailsProducts(){
                     aria-describedby="modal-modal-description"
                 >
                 <Box sx={style}>
-                       <strong>Detalhes</strong> 
-
+                       <strong>Detalhes do produto</strong> 
 
                         <div style={{ width:"100%", display:'flex', alignItems:'center'}}>
                                 <div style={{ width:"100%",display:'flex', alignItems:'start', justifyContent:'start', flexDirection:'column'}}>
@@ -107,11 +136,38 @@ export default function ModalDetailsProducts(){
 
                                     <div style={{ borderBottom:"1px solid black", width:'100%', height:'0'}}></div>
                                     <div style={{ marginBottom:'10px'}}></div>
-                                    <small style={{color:'blue'}}>Vendedor: {itemClicado.nome_vendedor}</small>
-                                    <small style={{color:'blue'}}>Contato: {itemClicado.contato_vendedor}</small>
-                                    <small style={{color:'blue'}}>Whatsapp: {itemClicado.whats_vendedor ? itemClicado.whats_vendedor : "Não possui" }</small>
-                                    <div style={{ borderBottom:"1px solid black", width:'100%', height:'0'}}></div>
-                                    <div style={{ marginBottom:'10px'}}></div>
+
+                                    <strong>Vendedor</strong> 
+                                    <div style={{display:'flex', flexDirection:'row'}}>
+                                               
+                                        <div> 
+                                            
+                                            <Image
+                                                src={accessLast.avatar}
+                                                width={70}
+                                                height={40}
+                                                alt="foto"
+                                        /> 
+
+                                        </div>
+                                       
+
+                                        <div style={{display:'flex', flexDirection:'column', marginLeft:'5px'}}>
+                                                <small style={{color:'blue'}}>Nome: {itemClicado.nome_vendedor}</small>
+                                                {/* <small style={{color:'blue'}}>Contato: {itemClicado.contato_vendedor}</small>
+                                                <small style={{color:'blue'}}>Whatsapp: {itemClicado.whats_vendedor ? itemClicado.whats_vendedor : "Não possui" }</small> */}
+                                                <div style={{display:'flex', flexDirection:'row'}}>
+                                                    <FaWhatsappSquare size={20} color='green' />
+                                                    <BsTelephoneForward size={20} color="blue" style={{marginLeft:'5px'}} />
+                                                </div>
+                                                <small style={{color:'blue'}}>Reputação:</small>
+                                                  <StarRating />
+                                        </div>
+                                    
+                                    </div>
+                                            <div style={{ borderBottom:"1px solid black", width:'100%', height:'0', marginTop:'5px'}}></div>
+                                            <div style={{ marginBottom:'10px'}}></div>
+                                   
                                     <small style={{color:'blue'}}>Ultimo acesso: {formatarData(accessLast.ultimoLogin)}</small>
                                 </div>                                        
                         </div>

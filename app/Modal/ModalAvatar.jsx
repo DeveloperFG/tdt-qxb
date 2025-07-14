@@ -201,7 +201,7 @@ export default function ModalAvatar(){
               <Box sx={style}>
 
                 <Typography id="modal-modal-title" variant="h6" component="h2" style={{color:'gray'}}>
-                 Foto do perfil
+                 Imagem do perfil
                 </Typography> 
 
                 {dadosUser.map((item)=> item.avatar != '' && (

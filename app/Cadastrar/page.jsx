@@ -529,7 +529,7 @@ export default function Cadastrar() {
                           id='arquivo'
                           multiple
                           accept='image/*'
-                          capture="environment"
+                          // capture="environment"
                           onChange={handleFile}
                           style={{ display: 'none' }} // se quiser esconder o input e usar só o label
                         />
@@ -640,7 +640,7 @@ export default function Cadastrar() {
                   <Link href='/Login' style={{color:'blue' }}>
                       Click aqui!
                   </Link>
-              </Box> : lista == '' ? 'Você ainda não tem itens cadastrados...' : <strong className="text-2x1 mb-12  "> {lista == '' ? 'Carregando itens...' : 'Meus itens'} </strong> }
+              </Box> : lista == '' ? 'Você ainda não tem itens cadastrados...' : <strong className="text-2x1 mb-6  "> {lista == '' ? 'Carregando itens...' : 'Meus itens'} </strong> }
                               
                               
 
