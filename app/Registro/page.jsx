@@ -74,7 +74,9 @@ export default function Registro() {
               whatsapp: whats,
               telefone: fone,
               avatar: '',
-              status: 'offline',
+              status: 'primeiro_acesso',
+              mensalidade: '',
+              primeiroAcesso: firebase.firestore.FieldValue.serverTimestamp(),
 
             })
             .then(() => {

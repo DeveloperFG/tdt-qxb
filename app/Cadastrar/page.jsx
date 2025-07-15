@@ -416,6 +416,8 @@ export default function Cadastrar() {
         setIdVendedor('')
         setQuantidade('')
 
+        setTimeout(setControl(!control), 2000)
+
         // const publicados = dataProduto.filter(dados => dados.status == 'publicados');
 
         // localStorage.setItem('listaProdutos', JSON.stringify(publicados))
@@ -519,7 +521,7 @@ export default function Cadastrar() {
                   </Box>    
                 
                   
-                  <Box display='flex' width='100%' alignItems='start' justifyContent='start'>
+                  {/* <Box display='flex' width='100%' alignItems='start' justifyContent='start'>
                         <label htmlFor='arquivo' className='label-input'>
                           Enviar arquivo <FileUploadIcon color="white" />
                         </label>
@@ -533,7 +535,21 @@ export default function Cadastrar() {
                           onChange={handleFile}
                           style={{ display: 'none' }} // se quiser esconder o input e usar só o label
                         />
+                  </Box> */}
+
+                   <Box display='flex' width='100%' flexDirection='row' alignItems='center' justifyContent='start' marginTop='3%'>
+                      <Box display='flex' width='100%' alignItems='start' justifyContent='start'>
+                            {/* <span style={{fontSize:'12px'}}>Imagem do produto :</span> */}
+                              <label for='arquivo' className='label-input'>Enviar arquivo <FileUploadIcon color="white"/> </label>
+                              <input type='file' name='arquivo' id='arquivo' multiple accept='image/*' value={inputProduto} onChange={handleFile} />         
+                      </Box>
+                      
+                      <Box display='flex' width='90%' justifyContent='start'>
+                          <small>{imgProduto.name}</small>
+                      </Box>
+                    
                   </Box>
+
                 <Box width='40%' marginTop='1%'>
                         {imgProduto.length != '' && load == false && (
                          <Box display='flex' width='150px' alignItems='center' justifyContent='start' >

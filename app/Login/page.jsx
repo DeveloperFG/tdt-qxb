@@ -78,7 +78,9 @@ export default function Login() {
           whats: data.whatsapp,
           avatar: data.avatar,
           status: data.status,
+          mensalidade: data.mensalidade,
           ultimoLogin: data.ultimoLogin,
+          primeiroAcesso: data.ultimoLogin,
         });
 
         setLoad(false);
