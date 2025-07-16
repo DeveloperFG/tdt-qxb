@@ -76,6 +76,8 @@ export default function Registro() {
               avatar: '',
               status: 'primeiro_acesso',
               mensalidade: '',
+              vendas_realizadas: 0,
+              vendas_perdidas: 0,
               primeiroAcesso: firebase.firestore.FieldValue.serverTimestamp(),
 
             })

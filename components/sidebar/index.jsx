@@ -8,8 +8,7 @@ import firebase from "../../app/firebase/db";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
 
-import { Home, PanelBottom, Package, Settings2, ShoppingBag, Users, User, PackagePlus, LogOut, ShoppingCart, Menu, Box } from "lucide-react";
-import { SheetClose } from "@/components/ui/sheet";
+import { Home, Package, ShoppingBag, Users, User, PackagePlus, LogOut, ShoppingCart, Menu } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider } from "@radix-ui/react-tooltip";
 import { TooltipTrigger } from "../ui/tooltip";
 
@@ -20,7 +19,6 @@ import avatar from '../../app/img/avatar.png'
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 
 export default function Sidebar() {
 
@@ -226,7 +224,7 @@ export default function Sidebar() {
                                     </Button>
                                                                 <Button
                                     variant="ghost"
-                                    onClick={() => handleNavigate("/Produtos")}
+                                    onClick={() => handleNavigate("/MeusItens")}
                                     className="flex justify-start items-center gap-4 px-2.5 text-white hover:bg-muted"
                                     >
                                     <ShoppingBag className="h-5 w-5 text-white" />

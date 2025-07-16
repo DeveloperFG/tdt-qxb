@@ -7,16 +7,6 @@ import { ProdutoContext } from "@/context";
 import Image from "next/image";
 
 import Load from "@/components/load/load";
-import Produtos from "./Produtos/page";
-
-import Link from "next/link";
-
-import { Modal } from "@mui/material";
-import Box from '@mui/material/Box';
-
-import {CircleX, Link2 } from "lucide-react";
-
-import * as BsIcons from 'react-icons/bs';
 
 import firebase from "../app/firebase/db";
 
