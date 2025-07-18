@@ -63,7 +63,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 // type Status = 'idle' | 'loading' | 'success';
 
-export default function MeusItens() {
+export default function Search() {
 
        const theme = useTheme();
        
@@ -86,17 +86,6 @@ export default function MeusItens() {
                 setIsLike('neutro');
             }
         }, []);
-
-
-      const handleChange = (event) => {
-        const {
-          target: { value },
-        } = event;
-        setPersonName(
-          // On autofill we get a stringified value.
-          typeof value === 'string' ? value.split(',') : value,
-      );
-    };
   
   return (
    <main className="sm:ml-28 p-2">
@@ -107,38 +96,9 @@ export default function MeusItens() {
           alignItems="center"
           justifyContent="center"
         >
-          <strong className="text-2x1 mb-6">Em negociação</strong>
-
-          <Box
-            sx={{
-              flexGrow: 1,
-              overflow: 'hidden',
-              px: 3,
-              mb: 1,
-              width: '100%',
-            }}
-          >
-            <Item
-              sx={{
-                my: 1,
-                p: 1,
-                width: '100%',
-              }}
-            >
-              <Box display="flex" flexDirection="row" alignItems='center' justifyContent='space-between'>
-                <Box display='flex' width="50px">
-                  <Image
-                    src={mouse}
-                    width={60}
-                    height={60}
-                    alt="Imagem do produto"
-                  />
-
-                   <Box display='flex' flexDirection='column' marginLeft='5px' alignItems="flex-start" justifyContent="flex-start">
-                  <Typography fontWeight='bold' noWrap> Mouse sem fio</Typography>
-
+          <strong className="text-2x1 mb-6">Busque pela categoria desejada.</strong>
                   <Box display='flex' flexDirection='row'>
-                      <Typography fontWeight='bold' htmlFor="my-select">Status:</Typography>
+                      <Typography fontWeight='bold' htmlFor="my-select">Filtro:</Typography>
                       
                         <select
                             id="my-select"
@@ -151,20 +111,19 @@ export default function MeusItens() {
                             }}
                           >
                             <option value="">Selecione</option>
-                            <option value="opcao1">Negócio fechou</option>
-                            <option value="opcao2">Negócio não fechou</option>
+                            <option value="opcao1">Eletrônicos</option>
+                            <option value="opcao2">Vestir</option>
+                            <option value="opcao2">Móveis</option>
+                            <option value="opcao2">Alimentos</option>
+                            <option value="opcao2">De casa</option>
+                            <option value="opcao2">Calçados</option>
+                            <option value="opcao2">Livraria</option>
+                            <option value="opcao2">Cosmetico</option>
+                            <option value="opcao2">Higieni</option>
+                            <option value="opcao2">Trânsportes</option>
+                            <option value="opcao2">Cama mesa / banho</option>
                         </select>
                   </Box>
-                </Box>
-                </Box>
-                  <BiIcons.BiSolidLike  className='icon' color={isLike == 'ok' ? 'green' : isLike == 'no' ? 'red' : 'gray'} size={22}/>
-              </Box>
-
-              <Stack spacing={2} direction="row" sx={{ alignItems: 'center' }}>
-              </Stack>
-            </Item>
-            <Typography fontWeight='bold' color='gray' htmlFor="my-select">Vendido por: Fernando Gustavo</Typography>  
-          </Box>
         </Box>
 </main>
   );

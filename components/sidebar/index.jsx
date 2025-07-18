@@ -8,7 +8,7 @@ import firebase from "../../app/firebase/db";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
 
-import { Home, Package, ShoppingBag, Users, User, PackagePlus, LogOut, ShoppingCart, Menu } from "lucide-react";
+import { Home, Package, ShoppingBag, Users, Search, PackagePlus, LogOut, ShoppingCart, Menu } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider } from "@radix-ui/react-tooltip";
 import { TooltipTrigger } from "../ui/tooltip";
 
@@ -138,12 +138,12 @@ export default function Sidebar() {
 
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Link href="/Pedidos" className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground">
-                                    <ShoppingBag className="h-5 w-5" />
+                                <Link href="/Search" className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground">
+                                    <Search  className="h-5 w-5" />
                                     <span className="sr-only">Pedidos</span>
                                 </Link>
                             </TooltipTrigger>
-                            <TooltipContent side="right">Pedidos</TooltipContent>
+                            <TooltipContent side="right">Buscar</TooltipContent>
                         </Tooltip>
 
                         <Tooltip>
@@ -216,11 +216,11 @@ export default function Sidebar() {
                                     </Button>
                                                                     <Button
                                     variant="ghost"
-                                    onClick={() => handleNavigate("/Pedidos")}
+                                    onClick={() => handleNavigate("/Search")}
                                     className="flex justify-start items-center gap-4 px-2.5 text-white hover:bg-muted"
                                     >
-                                    <Package className="h-5 w-5 text-white" />
-                                    Pedidos
+                                    <Search className="h-5 w-5 text-white" />
+                                    Buscar
                                     </Button>
                                                                 <Button
                                     variant="ghost"
